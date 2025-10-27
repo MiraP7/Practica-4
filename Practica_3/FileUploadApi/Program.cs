@@ -42,7 +42,7 @@ if (app.Environment.IsDevelopment())
 // Habilitar archivos estáticos
 app.UseStaticFiles();
 
-// Comentar o eliminar la redirección HTTPS si solo usas HTTP
+// No redirigir a HTTPS en desarrollo
 // app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
