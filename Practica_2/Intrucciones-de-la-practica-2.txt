@@ -1,0 +1,63 @@
+### 🧰 Herramientas utilizadas
+- **Visual Studio 2019 o 2022**
+- **.NET Core 5 o superior**
+- **Entity Framework Core**
+- **SQL Server Express o LocalDB**
+- **Swagger** (incluido por defecto en la plantilla)
+
+---
+
+### 📋 Pasos del tutorial
+
+1. **Crear el proyecto**
+   - Abrir Visual Studio y seleccionar la plantilla *ASP.NET Core Web API*.
+   - Nombrar el proyecto y seleccionar .NET 5 o superior.
+   - Confirmar que Swagger esté habilitado para pruebas.
+
+2. **Definir el modelo de datos**
+   - Crear una clase `Producto` con propiedades como `Id`, `Nombre`, `Precio`, etc.
+   - Esta clase representará la entidad principal de la API.
+
+3. **Configurar el contexto de base de datos**
+   - Crear una clase `AppDbContext` que herede de `DbContext`.
+   - Registrar el modelo `Producto` como un `DbSet<Producto>`.
+
+4. **Agregar la cadena de conexión**
+   - Editar `appsettings.json` para incluir la cadena de conexión a SQL Server.
+   - Ejemplo:
+     ```json
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=ProductosDb;Trusted_Connection=True;"
+     }
+     ```
+
+5. **Registrar servicios en `Startup.cs` o `Program.cs`**
+   - Agregar el contexto de base de datos en `ConfigureServices`:
+     ```csharp
+     services.AddDbContext<AppDbContext>(options =>
+         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+     ```
+
+6. **Crear el controlador**
+   - Crear `ProductosController` con métodos CRUD:
+     - `[HttpGet]` para listar productos
+     - `[HttpPost]` para crear uno nuevo
+     - `[HttpPut]` para actualizar
+     - `[HttpDelete]` para eliminar
+
+7. **Ejecutar migraciones**
+   - Usar consola de NuGet:
+     - `Add-Migration InitialCreate`
+     - `Update-Database`
+   - Esto crea la base de datos y la tabla `Productos`.
+
+8. **Probar la API con Swagger**
+   - Ejecutar el proyecto.
+   - Usar Swagger para enviar peticiones y verificar que los endpoints funcionan correctamente.
+
+---
+
+### ✅ Resultado final
+- Una API REST funcional con operaciones CRUD sobre la entidad `Producto`.
+- Base de datos creada y conectada.
+- Swagger listo para pruebas.
