@@ -2,19 +2,88 @@
 
 Registro de todos los cambios realizados en el proyecto de migraciones a .NET 9
 
-## [Inicial] - 27 de Octubre de 2025
+## [Inicial - Pruebas Exitosas] - 27 de Octubre de 2025
 
-### Adicionado - Práctica 1: SOAP Consumer
+### ✅ Pruebas Completadas
+
+#### Práctica 1: SOAP Consumer
+- ✅ Compilación: 0 errores, 0 advertencias
+- ✅ Ejecución: Funciona correctamente
+- ✅ Demuestra consumo de servicios SOAP
+- ✅ Listo para migración
+
+#### Práctica 2: Productos API
+- ✅ Compilación: 0 errores, 0 advertencias
+- ✅ Base de datos SQLite creada automáticamente
+- ✅ 3 productos iniciales cargados correctamente
+- ✅ Endpoint GET /api/productos funcional
+- ✅ Endpoint POST /api/productos funcional
+- ✅ Validaciones implementadas y funcionando
+- ✅ Listo para migración
+
+#### Práctica 3: FileUploadApi
+- ✅ Compilación: 0 errores, 0 advertencias
+- ✅ Servidor iniciado correctamente
+- ✅ Endpoint GET /api/fileupload/files funcional
+- ✅ Archivo de prueba accesible
+- ✅ Listo para migración
+
+### 🔧 Cambios Técnicos
+
+#### Práctica 2: Adaptación a Linux
+- Cambio de SQL Server a SQLite
+- Actualización de paquetes NuGet
+- Modificación de Program.cs para UseSqlite()
+- Actualización de cadena de conexión
+
+### 📝 Documentación Agregada
+
+- `README.md` - Guía completa del proyecto
+- `PRUEBAS.md` - Reporte detallado de pruebas
+- `.gitignore` - Configuración de git
+- Múltiples README.md en cada carpeta de práctica
+
+### 📊 Repositorio Git
+
+Commits realizados:
+1. `feb6e8c` - feat(practica-1): Implementar SOAP Service Consumer
+2. `15b2d29` - feat(practica-2): Implementar Productos API REST
+3. `9db2ed1` - docs(practica-3): Verificar FileUploadApi
+4. `01f3c68` - chore: Agregar configuración base del repositorio
+5. `0f36eba` - docs: Agregar README principal
+6. `51d0823` - fix(practica-2): Cambiar de SQL Server a SQLite para compatibilidad Linux
+7. `00620e3` - test: Documentar pruebas exitosas de las 3 prácticas
+
+---
+
+## ✅ Estado Final Pre-Migración
+
+Todas las 3 prácticas han sido:
+- ✅ Reconstruidas según especificaciones originales
+- ✅ Compiladas exitosamente
+- ✅ Probadas funcionalmente
+- ✅ Documentadas completamente
+- ✅ Registradas en Git
+
+### Próximos Pasos
+
+- [ ] Migración a .NET 9
+- [ ] Pruebas post-migración
+- [ ] Documentación de cambios de migración
+- [ ] Commits finales
+
+---
+
+## Adiciones - Práctica 2: SOAP Consumer
 
 - ✅ Creado proyecto Console App (.NET 8)
-- ✅ Implementado ejemplo de consumo de servicios SOAP
+- ✅ Implementado ejemplo funcional de consumo SOAP
 - ✅ Documentación completa con instrucciones de dotnet-svcutil
-- ✅ Estructura lista para generar proxies desde WSDL
 - **Archivos principales:**
   - `SoapConsumer/Program.cs` - Aplicación principal con ejemplos
   - `SoapConsumer/README.md` - Guía completa de uso
 
-### Adicionado - Práctica 2: Productos API
+### Adiciones - Práctica 2: Productos API
 
 - ✅ Creado proyecto ASP.NET Core Web API (.NET 8)
 - ✅ Modelo de datos: Tabla Productos con propiedades completas
@@ -27,7 +96,7 @@ Registro de todos los cambios realizados en el proyecto de migraciones a .NET 9
   - PUT /api/productos/{id} - Actualizar
   - DELETE /api/productos/{id} - Eliminar
   - GET /api/productos/buscar - Búsqueda por nombre
-- ✅ Entity Framework Core con SQL Server
+- ✅ Entity Framework Core con SQLite
 - ✅ Validaciones de negocio (precio y stock no negativos, nombre único)
 - ✅ Swagger integrado para documentación
 - ✅ CORS habilitado
@@ -50,17 +119,3 @@ Registro de todos los cambios realizados en el proyecto de migraciones a .NET 9
 - ✅ Swagger documentado
 - ✅ El proyecto ya cumple con los requisitos
 
-### Cambios Técnicos
-
-- Compilación exitosa de los tres proyectos
-- Configuración de paquetes NuGet necesarios
-- Estructura de carpetas organizada
-
----
-
-## Próximos Pasos
-
-- [ ] Pruebas completas de funcionalidad en cada práctica
-- [ ] Migración a .NET 9
-- [ ] Documentación de cambios en migración
-- [ ] Commits finales con documentación de la migración
