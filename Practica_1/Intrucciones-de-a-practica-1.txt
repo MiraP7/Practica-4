@@ -1,0 +1,51 @@
+### 🧰 Herramientas utilizadas
+- **.NET Core (preferiblemente 3.1 o superior)**
+- **Visual Studio 2019 o 2022**
+- **Servicio SOAP con archivo WSDL**
+- **Herramienta `svcutil` o `dotnet-svcutil`** (para generar clases proxy)
+
+---
+
+### 📋 Pasos del tutorial
+
+1. **Preparar el entorno**
+   - Abrir Visual Studio y crear un proyecto tipo *Console App (.NET Core)* o *ASP.NET Core Web App*, según el caso.
+   - Asegurarse de tener instalado el paquete `dotnet-svcutil`:
+     ```bash
+     dotnet tool install --global dotnet-svcutil
+     ```
+
+2. **Generar las clases proxy**
+   - Usar el comando `dotnet-svcutil` para generar las clases necesarias a partir del archivo WSDL:
+     ```bash
+     dotnet-svcutil https://url-del-servicio.wsdl
+     ```
+   - Esto crea un archivo `.cs` con las clases necesarias para consumir el servicio.
+
+3. **Agregar el archivo generado al proyecto**
+   - Incluir el archivo `.cs` en el proyecto.
+   - Asegurarse de que el namespace coincida con el resto del código.
+
+4. **Consumir el servicio**
+   - Crear una instancia del cliente generado por `svcutil`.
+   - Llamar a los métodos disponibles en el servicio.
+
+   Ejemplo básico:
+   ```csharp
+   var client = new ServicioSoapClient();
+   var resultado = await client.MetodoAsync(parametros);
+   Console.WriteLine(resultado);
+   ```
+
+5. **Configurar el archivo `app.config` o `appsettings.json`**
+   - Si el servicio requiere configuración adicional (como endpoint o binding), agregarla en el archivo de configuración.
+
+6. **Probar la integración**
+   - Ejecutar el proyecto y verificar que se pueda consumir el servicio correctamente.
+   - Manejar posibles excepciones como errores de conexión o formato.
+
+---
+
+### ✅ Resultado esperado
+- El proyecto puede conectarse a un servicio SOAP externo usando clases generadas automáticamente.
+- Se pueden invocar métodos del servicio como si fueran locales.
