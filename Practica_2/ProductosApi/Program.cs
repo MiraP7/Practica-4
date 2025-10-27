@@ -6,10 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 
-// Configurar Entity Framework Core con SQL Server
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// Configurar Entity Framework Core con SQLite (compatible con Linux)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? "Data Source=ProductosDb.db";
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString ?? "Server=(localdb)\\mssqllocaldb;Database=ProductosDb;Trusted_Connection=true;"));
+    options.UseSqlite(connectionString));
 
 // Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
