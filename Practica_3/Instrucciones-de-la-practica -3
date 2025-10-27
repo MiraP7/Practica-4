@@ -1,0 +1,59 @@
+### 🧰 Herramientas utilizadas
+- **ASP.NET Core Web API**
+- **Visual Studio 2022 o superior**
+- **C#**
+- **Postman** (para pruebas)
+
+---
+
+### 📋 Pasos del tutorial
+
+1. **Crear el proyecto**
+   - Abrir Visual Studio y crear un nuevo proyecto tipo *ASP.NET Core Web API*.
+   - Seleccionar la versión de .NET deseada (idealmente .NET 6 o superior).
+   - Configurar el nombre del proyecto y habilitar Swagger si se desea.
+
+2. **Configurar el modelo de archivo**
+   - No se necesita un modelo específico, pero se puede crear una clase auxiliar si se desea guardar metadatos del archivo.
+
+3. **Crear el controlador**
+   - Crear un nuevo controlador llamado `FileUploadController`.
+   - Agregar un método con el atributo `[HttpPost("upload")]` que reciba un parámetro de tipo `IFormFile`.
+
+   ```csharp
+   [HttpPost("upload")]
+   public async Task<IActionResult> UploadFile(IFormFile file)
+   {
+       if (file == null || file.Length == 0)
+           return BadRequest("No file uploaded");
+
+       var path = Path.Combine("Uploads", file.FileName);
+
+       using (var stream = new FileStream(path, FileMode.Create))
+       {
+           await file.CopyToAsync(stream);
+       }
+
+       return Ok(new { file.FileName, file.Length });
+   }
+   ```
+
+4. **Configurar la carpeta de destino**
+   - Crear una carpeta llamada `Uploads` en la raíz del proyecto.
+   - Asegurarse de que tenga permisos de escritura.
+
+5. **Probar con Swagger o Postman**
+   - Ejecutar el proyecto y usar Swagger para probar el endpoint `/upload`.
+   - Alternativamente, usar Postman con una petición POST y tipo `form-data`, seleccionando un archivo.
+
+6. **Validaciones adicionales (opcional)**
+   - Validar el tipo de archivo (`file.ContentType`).
+   - Limitar el tamaño máximo permitido.
+   - Renombrar el archivo para evitar conflictos.
+
+---
+
+### ✅ Resultado esperado
+- El archivo se guarda en la carpeta `Uploads`.
+- La API responde con un objeto JSON que incluye el nombre y tamaño del archivo.
+- Los archivos se limitan a documentos y imagenes.
