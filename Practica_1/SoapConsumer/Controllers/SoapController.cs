@@ -78,10 +78,38 @@ namespace SoapConsumer.Controllers
                     "*.xsd"
                 },
                 proximo_paso = "Incluir los archivos generados en tu proyecto y crear un cliente",
-                ejemplo_codigo = @"
-var client = new ServicioClient();
-var resultado = await client.MetodoAsync(parametros);
-Console.WriteLine(resultado);"
+                ejemplo_codigo = request.WsdlUrl.Contains("dneonline.com/calculator") ? @"
+var binding = new System.ServiceModel.BasicHttpBinding();
+var endpoint = new System.ServiceModel.EndpointAddress(""http://www.dneonline.com/calculator.asmx"");
+var client = new CalculatorSoapClient(binding, endpoint);
+
+try
+{
+    // Ejemplo: sumar 15 + 27
+    int resultado = await client.AddAsync(15, 27);
+    Console.WriteLine($""Resultado de 15 + 27 = {resultado}"");
+    
+    // Ejemplo: multiplicar 10 * 5
+    int multiplicacion = await client.MultiplyAsync(10, 5);
+    Console.WriteLine($""Resultado de 10 * 5 = {multiplicacion}"");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($""Error: {ex.Message}"");
+}" : @"
+var binding = new System.ServiceModel.BasicHttpBinding();
+var endpoint = new System.ServiceModel.EndpointAddress(""[URL_DEL_SERVICIO]"");
+var client = new ServicioClient(binding, endpoint);
+
+try
+{
+    var resultado = await client.MetodoAsync(parametros);
+    Console.WriteLine(resultado);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($""Error: {ex.Message}"");
+}"
             });
         }
 
@@ -204,7 +232,18 @@ Console.WriteLine(resultado);"
             return Ok(new
             {
                 titulo = "Ejemplos de Consumo de Servicios SOAP",
-                ejemplos = new object[]
+                servicios_disponibles = new object[]
+                {
+                    new
+                    {
+                        nombre = "DNE Online Calculator Service",
+                        url_wsdl = "http://www.dneonline.com/calculator.asmx?wsdl",
+                        url_servicio = "http://www.dneonline.com/calculator.asmx",
+                        metodos = new[] { "Add", "Subtract", "Multiply", "Divide" },
+                        descripcion = "Servicio SOAP simple para operaciones matemáticas"
+                    }
+                },
+                pasos = new object[]
                 {
                     new
                     {
@@ -213,28 +252,52 @@ Console.WriteLine(resultado);"
                     },
                     new
                     {
-                        titulo = "Paso 2: Generar proxy desde WSDL",
-                        comando = "dotnet-svcutil https://ejemplo.com/servicio.wsdl -o ./GeneratedProxy"
+                        titulo = "Paso 2: Generar proxy desde WSDL del Calculator",
+                        comando = "dotnet-svcutil http://www.dneonline.com/calculator.asmx?wsdl -o CalculatorProxy"
                     },
                     new
                     {
-                        titulo = "Paso 3: Crear cliente en código",
+                        titulo = "Paso 3: Crear cliente SOAP en código",
                         codigo = @"
-using GeneratedProxy;
+using System.ServiceModel;
 
-var binding = new System.ServiceModel.BasicHttpBinding();
-var endpoint = new System.ServiceModel.EndpointAddress(""https://ejemplo.com/servicio"");
-var client = new ServicioClient(binding, endpoint);
+var binding = new BasicHttpBinding();
+var endpoint = new EndpointAddress(""http://www.dneonline.com/calculator.asmx"");
+var client = new CalculatorSoapClient(binding, endpoint);
 
 try
 {
-    var resultado = await client.MetodoAsync(""parametro"");
-    Console.WriteLine(resultado);
+    // Sumar dos números
+    int resultado = await client.AddAsync(10, 5);
+    Console.WriteLine($""10 + 5 = {resultado}"");
+
+    // Restar
+    int resta = await client.SubtractAsync(10, 5);
+    Console.WriteLine($""10 - 5 = {resta}"");
+
+    // Multiplicar
+    int mult = await client.MultiplyAsync(10, 5);
+    Console.WriteLine($""10 * 5 = {mult}"");
+
+    // Dividir
+    int div = await client.DivideAsync(10, 5);
+    Console.WriteLine($""10 / 5 = {div}"");
 }
 catch (Exception ex)
 {
-    Console.WriteLine($""Error: {ex.Message}"");
+    Console.WriteLine($""Error al conectar con el servicio: {ex.Message}"");
 }"
+                    },
+                    new
+                    {
+                        titulo = "Paso 4: Desde la API REST",
+                        metodo = "POST",
+                        endpoint = "/api/soap/register-service",
+                        payload = new
+                        {
+                            serviceName = "Calculator Service",
+                            wsdlUrl = "http://www.dneonline.com/calculator.asmx?wsdl"
+                        }
                     }
                 }
             });

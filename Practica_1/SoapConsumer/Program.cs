@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Forzar ambiente a Development para que Swagger siempre funcione
+builder.Environment.EnvironmentName = "Development";
+
 // Configurar para usar solo HTTP en puerto 5001
 builder.WebHost.UseUrls("http://localhost:5001");
 
@@ -32,11 +35,9 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Swagger siempre habilitado en esta aplicación
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 app.UseAuthorization();
